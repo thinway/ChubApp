@@ -30,12 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefs = getSharedPreferences(
-                "data",
-                Context.MODE_PRIVATE
-        );
-        String unit = prefs.getString("UNITS", "metrico");
-        Log.d(TAG, "UNITS: " + unit);
+        showUnitsState();
 
         mRecyclerView = findViewById(R.id.list_temperatures_recycler_view);
 
@@ -48,6 +43,23 @@ public class MainActivity extends AppCompatActivity {
 
         loadWeatherData();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        showUnitsState();
+
+    }
+
+    private void showUnitsState(){
+        SharedPreferences prefs = getSharedPreferences(
+                "data",
+                Context.MODE_PRIVATE
+        );
+        String unit = prefs.getString("UNITS", "metrico");
+        Log.d(TAG, "UNITS: " + unit);
     }
 
     private void loadWeatherData(){

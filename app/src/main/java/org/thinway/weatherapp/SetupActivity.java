@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -14,7 +12,6 @@ public class SetupActivity extends AppCompatActivity {
     private static final String TAG = SetupActivity.class.getName();
 
     ToggleButton unitsToggleButton;
-    Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,22 +19,21 @@ public class SetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup);
 
         unitsToggleButton = findViewById(R.id.units_toggle_button);
-        saveButton = findViewById(R.id.save_button);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String unit = unitsToggleButton.getText().toString();
+        SharedPreferences prefs = getSharedPreferences(
+                "data",
+                Context.MODE_PRIVATE
+        );
+        String unit = prefs.getString("UNITS", "no_unit");
 
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Saving UNITS: " + unit,
-                        Toast.LENGTH_SHORT
-                ).show();
+        if( unit.equals("metric") ){
+            unitsToggleButton.setText("Metric");
+            unitsToggleButton.setChecked(true);
+        }else{
+            unitsToggleButton.setText("Imperial");
+            unitsToggleButton.setChecked(false);
+        }
 
-                saveUnits(unit);
-            }
-        });
     }
 
     private void saveUnits(String unit) {
@@ -50,5 +46,20 @@ public class SetupActivity extends AppCompatActivity {
 
         editorPrefs.putString("UNITS", unit);
         editorPrefs.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        String unit = unitsToggleButton.getText().toString().toLowerCase();
+
+        Toast.makeText(
+                getApplicationContext(),
+                "Saving UNITS: " + unit,
+                Toast.LENGTH_SHORT
+        ).show();
+
+        saveUnits(unit);
     }
 }
