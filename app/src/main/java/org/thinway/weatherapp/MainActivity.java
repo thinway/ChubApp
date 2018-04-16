@@ -1,11 +1,14 @@
 package org.thinway.weatherapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +19,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getName();
+
     private List<Weather> mWeatherList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private WeatherAdapter mWeatherAdapter;
@@ -24,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences(
+                "data",
+                Context.MODE_PRIVATE
+        );
+        String unit = prefs.getString("UNITS", "metrico");
+        Log.d(TAG, "UNITS: " + unit);
 
         mRecyclerView = findViewById(R.id.list_temperatures_recycler_view);
 
