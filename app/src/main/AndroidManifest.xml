@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".AboutActivity">
         </activity>
-        <activity android:name=".SetupActivity">
+        <activity android:name=".SetupActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

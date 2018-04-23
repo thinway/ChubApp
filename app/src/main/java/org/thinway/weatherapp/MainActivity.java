@@ -46,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onRestart() {
+        super.onRestart();
 
         showUnitsState();
-
     }
 
     private void showUnitsState(){
