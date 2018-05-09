@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 "data",
                 Context.MODE_PRIVATE
         );
+
         String unit = prefs.getString("UNITS", "metrico");
         Log.d(TAG, "UNITS: " + unit);
     }

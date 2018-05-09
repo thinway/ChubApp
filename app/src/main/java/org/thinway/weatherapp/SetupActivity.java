@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.widget.EditText;
 import android.widget.ToggleButton;
 
 public class SetupActivity extends AppCompatActivity {
@@ -13,6 +13,7 @@ public class SetupActivity extends AppCompatActivity {
     private static final String TAG = SetupActivity.class.getName();
 
     ToggleButton unitsToggleButton;
+    EditText locationEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class SetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup);
 
         unitsToggleButton = findViewById(R.id.units_toggle_button);
+        locationEditText = findViewById(R.id.location_edit_text);
 
         SharedPreferences prefs = getSharedPreferences(
                 "data",
@@ -34,6 +36,9 @@ public class SetupActivity extends AppCompatActivity {
             unitsToggleButton.setText("Imperial");
             unitsToggleButton.setChecked(false);
         }
+
+        String location = prefs.getString("LOCATION", "No Location");
+        locationEditText.setText(location);
 
         showToolbar("Preferences", true);
     }
@@ -58,18 +63,28 @@ public class SetupActivity extends AppCompatActivity {
         editorPrefs.commit();
     }
 
+    private void saveLocation(String location) {
+        SharedPreferences prefs = getSharedPreferences(
+                "data",
+                Context.MODE_PRIVATE
+        );
+
+        SharedPreferences.Editor editorPrefs = prefs.edit();
+
+        editorPrefs.putString("LOCATION", location);
+        editorPrefs.commit();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
 
         String unit = unitsToggleButton.getText().toString().toLowerCase();
-
-        Toast.makeText(
-                getApplicationContext(),
-                "Saving UNITS: " + unit,
-                Toast.LENGTH_SHORT
-        ).show();
+        String location = locationEditText.getText().toString();
 
         saveUnits(unit);
+        saveLocation(location);
     }
+
+
 }

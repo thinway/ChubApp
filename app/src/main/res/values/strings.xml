@@ -3,4 +3,6 @@
     <string name="about_menu_item">About</string>
     <string name="units_title_text_view">UNITS</string>
     <string name="units_desc_text_view">Units can be \'Metric\' or \'Imperial\'</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="city_hint">Introduce la localización</string>
 </resources>
