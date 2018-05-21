@@ -11,6 +11,8 @@ import android.widget.ToggleButton;
 public class SetupActivity extends AppCompatActivity {
 
     private static final String TAG = SetupActivity.class.getName();
+    private static final String LOCATION = "LOCATION";
+    private static final String UNITS = "UNITS";
 
     ToggleButton unitsToggleButton;
     EditText locationEditText;
@@ -51,7 +53,7 @@ public class SetupActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
     }
 
-    private void saveUnits(String unit) {
+    private void saveData(String data, String value) {
         SharedPreferences prefs = getSharedPreferences(
                 "data",
                 Context.MODE_PRIVATE
@@ -59,19 +61,7 @@ public class SetupActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editorPrefs = prefs.edit();
 
-        editorPrefs.putString("UNITS", unit);
-        editorPrefs.commit();
-    }
-
-    private void saveLocation(String location) {
-        SharedPreferences prefs = getSharedPreferences(
-                "data",
-                Context.MODE_PRIVATE
-        );
-
-        SharedPreferences.Editor editorPrefs = prefs.edit();
-
-        editorPrefs.putString("LOCATION", location);
+        editorPrefs.putString(data, value);
         editorPrefs.commit();
     }
 
@@ -82,8 +72,8 @@ public class SetupActivity extends AppCompatActivity {
         String unit = unitsToggleButton.getText().toString().toLowerCase();
         String location = locationEditText.getText().toString();
 
-        saveUnits(unit);
-        saveLocation(location);
+        saveData(UNITS, unit);
+        saveData(LOCATION, location);
     }
 
 
